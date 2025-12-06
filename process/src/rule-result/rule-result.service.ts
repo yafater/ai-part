@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { RuleDocument } from 'src/rule/rule.schema';
 import { EventDocument } from 'src/event/event.schema';
 import { GetTimeDiffInMinutes, PersianToDate } from 'src/common/date';
+import { RuleResultDto } from './get-results.dto';
 
 @Injectable()
 export class RuleResultService {
@@ -65,13 +66,13 @@ export class RuleResultService {
     from: string;
     to: string;
     ruleId: string;
-  }) {
+  }): Promise<RuleResultDto[]> {
     const fromDate = PersianToDate(from);
     const toDate = PersianToDate(to);
 
     this.checkDate(fromDate, toDate);
 
-    const result = await this.ruleResultModel.aggregate([
+    const result: RuleResultDto[] = await this.ruleResultModel.aggregate([
       {
         $match: {
           ruleId: new Types.ObjectId(ruleId),
@@ -82,23 +83,34 @@ export class RuleResultService {
         $group: {
           _id: '$agentId',
           events: { $push: '$$ROOT' },
-          count: { $sum: 1 },
         },
       },
       {
         $project: {
           _id: 0,
           agentId: '$_id',
-          count: 1,
-          events: 1,
+          events: {
+            $map: {
+              input: '$events',
+              as: 'e',
+              in: {
+                id: '$$e._id',
+                ruleId: '$$e.ruleId',
+                eventId: '$$e.eventId',
+                agentId: '$$e.agentId',
+                condition: '$$e.condition',
+                matchedAt: '$$e.matchedAt',
+              },
+            },
+          },
         },
       },
     ]);
     return result;
   }
 
-  async getRuleAgents(ruleId: string) {
-    const result = await this.ruleResultModel.aggregate([
+  async getRuleAgents(ruleId: string): Promise<RuleResultDto[]> {
+    const result: RuleResultDto[] = await this.ruleResultModel.aggregate([
       {
         $match: { ruleId: new Types.ObjectId(ruleId) },
       },
@@ -108,8 +120,20 @@ export class RuleResultService {
         $project: {
           _id: 0,
           agentId: '$_id',
-          count: 1,
-          events: 1,
+          events: {
+            $map: {
+              input: '$events',
+              as: 'e',
+              in: {
+                id: '$$e._id',
+                ruleId: '$$e.ruleId',
+                eventId: '$$e.eventId',
+                agentId: '$$e.agentId',
+                condition: '$$e.condition',
+                matchedAt: '$$e.matchedAt',
+              },
+            },
+          },
         },
       },
     ]);

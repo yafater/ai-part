@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Rule, RuleDocument } from './rule.schema';
 import { Model } from 'mongoose';
 import { CreateRuleDto, RuleDto } from './rule.dto';
+import { EventTypes } from 'src/event/event.types';
 
 @Injectable()
 export class RuleRepository {
@@ -17,7 +18,15 @@ export class RuleRepository {
   }
 
   async findAll(): Promise<RuleDocument[]> {
-    return this.ruleModel.find().exec();
+    return this.ruleModel.find({ deleted: false }).exec();
+  }
+
+  findByEventType(eventType: EventTypes): Promise<RuleDocument[]> {
+    return this.ruleModel.find({ deleted: false, field: eventType }).exec();
+  }
+
+  async findOneById(id: string) {
+    return this.ruleModel.findById(id);
   }
 
   async findPaginated(
@@ -26,7 +35,7 @@ export class RuleRepository {
     dto: Partial<RuleDto>,
   ): Promise<RuleDocument[]> {
     return this.ruleModel
-      .find(dto)
+      .find({ deleted: false, ...dto })
       .skip((page - 1) * limit)
       .limit(limit);
   }
@@ -40,6 +49,13 @@ export class RuleRepository {
   }
 
   async delete(id: string) {
-    return this.ruleModel.findByIdAndDelete(id);
+    return this.ruleModel.findByIdAndUpdate(
+      id,
+      {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+      { new: true },
+    );
   }
 }

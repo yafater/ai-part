@@ -30,3 +30,7 @@ export const RuleResultSchema = SchemaFactory.createForClass(RuleResult);
 RuleResultSchema.virtual('id').get(function () {
   return this._id.toString();
 });
+
+RuleResultSchema.index({ ruleId: 1, matchedAt: 1 });
+RuleResultSchema.index({ agentId: 1 });
+RuleResultSchema.index({ matchedAt: 1 });
