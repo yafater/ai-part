@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 interface EventDataDto {
   name: string;
   value: number;
-  agent: string;
+  agentId: string;
 }
 @WebSocketGateway()
 export class GatewayService {
@@ -49,7 +49,7 @@ export class GatewayService {
     return {
       name: randomKey.toUpperCase(),
       value: events[randomKey](),
-      agent: this.configService.get<string>('agent.service')!,
+      agentId: this.configService.get<string>('agent.id')!,
     };
   }
 }

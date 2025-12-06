@@ -1,10 +1,28 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import config from './config/config';
+import { validationSchema } from './config/validation';
+import { MongooseModule } from '@nestjs/mongoose';
+import { EventModule } from './event/event.module';
+import { WsClientService } from './ws-client.service';
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config],
+      validationSchema,
+    }),
+
+    MongooseModule.forRootAsync({
+      useFactory: (config: ConfigService) => ({
+        uri: config.get('database.uri'),
+      }),
+      inject: [ConfigService],
+    }),
+
+    EventModule,
+  ],
+  controllers: [],
+  providers: [WsClientService],
 })
 export class AppModule {}

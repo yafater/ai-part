@@ -1,0 +1,7 @@
+export enum EventTypes {
+  TEMPERATURE = 'TEMPERATURE',
+  PRESSURE = 'PRESSURE',
+  NOISE = 'NOISE',
+  VOLTAGE = 'VOLTAGE',
+  SPEED = 'SPEED',
+}
