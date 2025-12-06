@@ -1,0 +1,56 @@
+services:
+  agent:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    container_name: agent_service
+    environment:
+      - AGENT_ID=A
+      - PORT=3000
+    networks:
+      - ai-part
+    ports:
+      - "3000:3000"    
+  
+  process:
+    build:
+      context: ./process
+      dockerfile: Dockerfile
+    container_name: process_service
+    networks:
+      - ai-part
+    ports:
+      - "5000:5000"
+    environment:
+      - AGENT_SERVICE=http://agent:3000
+      - DATABASE_URI=mongodb://mongo:27017/sensors
+      - PORT=5000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+    depends_on:
+      - agent
+      - redis
+      - mongodb
+  redis:
+    image: redis:8.4.0
+    container_name: redis
+    ports:
+      - "6380:6379"
+    networks:
+      - ai-part
+
+  mongodb:
+    image: mongo:8.2
+    container_name: mongo
+    ports:
+      - "27018:27017"
+    networks:
+      - ai-part
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  ai-part:
+
+volumes:
+  mongo_data:
