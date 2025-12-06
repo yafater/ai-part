@@ -4,7 +4,11 @@ import { baseToJson } from 'src/common/base-to-json';
 
 export type RuleResultDocument = HydratedDocument<RuleResult>;
 
-@Schema({ timestamps: true, toJSON: baseToJson, collection: 'rule-results' })
+@Schema({
+  timestamps: true,
+  toJSON: baseToJson,
+  collection: 'rule-results',
+})
 export class RuleResult {
   @Prop({ type: Types.ObjectId, ref: 'Rule', required: true })
   ruleId: string;

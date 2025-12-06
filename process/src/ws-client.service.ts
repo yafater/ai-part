@@ -1,17 +1,17 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { io } from 'socket.io-client';
-import { EventsService } from './event/event.service';
+import { EventRepository } from './event/event.repository';
 import { ConfigService } from '@nestjs/config';
-import { RuleService } from './rule/rule.service';
-import { RuleMatchingService } from './rule-result/rule-matching.service';
+import { RuleRepository } from './rule/rule.repository';
+import { RuleResultService } from './rule-result/rule-result.service';
 
 @Injectable()
 export class WsClientService implements OnModuleInit {
   constructor(
-    private readonly eventService: EventsService,
+    private readonly eventRepository: EventRepository,
     private readonly configService: ConfigService,
-    private readonly ruleService: RuleService,
-    private readonly ruleMatchingService: RuleMatchingService,
+    private readonly ruleRepository: RuleRepository,
+    private readonly ruleResultService: RuleResultService,
   ) {}
 
   private socket;
@@ -32,9 +32,9 @@ export class WsClientService implements OnModuleInit {
 
   private async handleData(data: any) {
     try {
-      const event = await this.eventService.create(data);
-      const rules = await this.ruleService.findAll();
-      await this.ruleMatchingService.matchEventWithRules(event, rules);
+      const event = await this.eventRepository.create(data);
+      const rules = await this.ruleRepository.findAll();
+      await this.ruleResultService.matchEventWithRules(event, rules);
     } catch (err) {
       console.error('Error saving event data:', err);
     }

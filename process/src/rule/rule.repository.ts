@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateRuleDto, RuleDto } from './rule.dto';
 
 @Injectable()
-export class RuleService {
+export class RuleRepository {
   constructor(
     @InjectModel(Rule.name)
     private ruleModel: Model<Rule>,

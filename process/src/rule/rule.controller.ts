@@ -11,19 +11,19 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRuleDto, RuleDto } from './rule.dto';
-import { RuleService } from './rule.service';
+import { RuleRepository } from './rule.repository';
 import { ApiResponsePaginated } from 'src/common/api-response-paginated.decorator';
 import express from 'express';
 
 @Controller('rules')
 @ApiTags('rules')
 export class RuleController {
-  constructor(private readonly ruleService: RuleService) {}
+  constructor(private readonly ruleRepository: RuleRepository) {}
 
   @Post()
   @ApiResponse({ status: 201, type: RuleDto })
   create(@Body() dto: CreateRuleDto) {
-    return this.ruleService.create(dto);
+    return this.ruleRepository.create(dto);
   }
 
   @ApiResponsePaginated(RuleDto)
@@ -33,8 +33,8 @@ export class RuleController {
     @Res() response: express.Response,
   ) {
     const [data, count] = await Promise.all([
-      this.ruleService.findPaginated(page, limit, dto),
-      this.ruleService.getCount(dto),
+      this.ruleRepository.findPaginated(page, limit, dto),
+      this.ruleRepository.getCount(dto),
     ]);
 
     response.send({
@@ -47,11 +47,11 @@ export class RuleController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: CreateRuleDto) {
-    return this.ruleService.update(id, dto);
+    return this.ruleRepository.update(id, dto);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.ruleService.delete(id);
+    return this.ruleRepository.delete(id);
   }
 }

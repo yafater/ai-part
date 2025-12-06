@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RuleMatchingService } from './rule-matching.service';
+import { RuleResultService } from './rule-result.service';
 import { RuleResult, RuleResultSchema } from './rule-result.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RuleResultController } from './rule-result.controller';
 
 @Module({
   imports: [
@@ -9,8 +10,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       { name: RuleResult.name, schema: RuleResultSchema },
     ]),
   ],
-  providers: [RuleMatchingService],
-  exports: [RuleMatchingService],
-  controllers: [],
+  providers: [RuleResultService],
+  exports: [RuleResultService],
+  controllers: [RuleResultController],
 })
 export class RuleResultModule {}
