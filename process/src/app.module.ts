@@ -5,6 +5,7 @@ import { validationSchema } from './config/validation';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventModule } from './event/event.module';
 import { WsClientService } from './ws-client.service';
+import { RuleModule } from './rule/rule.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +22,7 @@ import { WsClientService } from './ws-client.service';
     }),
 
     EventModule,
+    RuleModule,
   ],
   controllers: [],
   providers: [WsClientService],
