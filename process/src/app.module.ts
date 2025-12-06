@@ -7,6 +7,7 @@ import { EventModule } from './event/event.module';
 import { WsClientService } from './ws-client.service';
 import { RuleModule } from './rule/rule.module';
 import { RuleResultModule } from './rule-result/rule-result.module';
+import { RedisModule } from './redis/redis.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +26,7 @@ import { RuleResultModule } from './rule-result/rule-result.module';
     EventModule,
     RuleModule,
     RuleResultModule,
+    RedisModule,
   ],
   controllers: [],
   providers: [WsClientService],
