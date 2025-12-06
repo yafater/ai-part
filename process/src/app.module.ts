@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EventModule } from './event/event.module';
 import { WsClientService } from './ws-client.service';
 import { RuleModule } from './rule/rule.module';
+import { RuleResultModule } from './rule-result/rule-result.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +24,7 @@ import { RuleModule } from './rule/rule.module';
 
     EventModule,
     RuleModule,
+    RuleResultModule,
   ],
   controllers: [],
   providers: [WsClientService],

@@ -16,6 +16,10 @@ export class RuleService {
     return createdEvent.save();
   }
 
+  async findAll(): Promise<RuleDocument[]> {
+    return this.ruleModel.find().exec();
+  }
+
   async findPaginated(
     page: number,
     limit: number,
