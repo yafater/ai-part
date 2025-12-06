@@ -10,4 +10,8 @@ export default () => ({
   agent: {
     service: process.env.AGENT_SERVICE!,
   },
+  kafka: {
+    brokers: process.env.KAFKA_BROKERS,
+    consumerGroup: process.env.KAFKA_CONSUMER_GROUP,
+  },
 });

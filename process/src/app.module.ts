@@ -4,7 +4,7 @@ import config from './config/config';
 import { validationSchema } from './config/validation';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventModule } from './event/event.module';
-import { WsClientService } from './ws-client.service';
+import { ProcessController } from './process.controller';
 import { RuleModule } from './rule/rule.module';
 import { RuleResultModule } from './rule-result/rule-result.module';
 import { RedisModule } from './redis/redis.module';
@@ -28,7 +28,7 @@ import { RedisModule } from './redis/redis.module';
     RuleResultModule,
     RedisModule,
   ],
-  controllers: [],
-  providers: [WsClientService],
+  controllers: [ProcessController],
+  providers: [],
 })
 export class AppModule {}

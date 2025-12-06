@@ -1,22 +1,27 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
 import { faker } from '@faker-js/faker';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ClientKafka } from '@nestjs/microservices';
 
 interface EventDataDto {
   name: string;
   value: number;
   agentId: string;
 }
-@WebSocketGateway()
-export class GatewayService {
-  constructor(private configService: ConfigService) {}
-
-  @WebSocketServer()
-  server: Server;
+@Injectable()
+export class GatewayService implements OnModuleInit {
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject('KAFKA_PRODUCER') private readonly kafkaClient: ClientKafka,
+  ) {}
+  async onModuleInit() {
+    this.kafkaClient.subscribeToResponseOf('sensor-event');
+    await this.kafkaClient.connect();
+  }
 
   sendEvent() {
-    this.server.emit('sensor-event', this.generateRandomSenorData());
+    const event = this.generateRandomSenorData();
+    this.kafkaClient.emit('sensor-event', { event });
   }
 
   private generateRandomSenorData(): EventDataDto {

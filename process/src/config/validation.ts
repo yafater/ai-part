@@ -6,4 +6,6 @@ export const validationSchema = Joi.object({
   AGENT_SERVICE: Joi.string().required(),
   REDIS_HOST: Joi.string().required(),
   REDIS_PORT: Joi.number().required(),
+  KAFKA_BROKERS: Joi.string().required(),
+  KAFKA_CONSUMER_GROUP: Joi.string().required(),
 });

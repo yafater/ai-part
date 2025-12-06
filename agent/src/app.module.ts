@@ -5,6 +5,7 @@ import { validationSchema } from './config/validation';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TaskService } from './services/task.service';
 import { GatewayService } from './services/gateway.service';
+import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GatewayService } from './services/gateway.service';
       validationSchema,
     }),
     ScheduleModule.forRoot(),
+    KafkaModule,
   ],
   controllers: [],
   providers: [TaskService, GatewayService],

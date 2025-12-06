@@ -1,7 +1,7 @@
 export class CreateEventDto {
   name: string;
 
-  value: string;
+  value: number;
 
   agentId: string;
 }
