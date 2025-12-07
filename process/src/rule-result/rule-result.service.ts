@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { RuleResult } from './rule-result.schema';
+import { RuleResult } from './rule-result.entity';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { RuleDocument } from 'src/rule/rule.schema';
-import { EventDocument } from 'src/event/event.schema';
-import { GetTimeDiffInMinutes, PersianToDate } from 'src/common/date';
-import { RuleResultDto } from './get-results.dto';
+import { RuleDocument } from 'src/rule/rule.entity';
+import { EventDocument } from 'src/event/event.entity';
+import { GetTimeDiffInMinutes, PersianToDate } from 'src/common/helpers/date';
+import { RuleResultDto } from './dto/rule-result.dto';
 
 @Injectable()
 export class RuleResultService {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RuleResultService } from './rule-result.service';
-import { RuleResult, RuleResultSchema } from './rule-result.schema';
+import { RuleResult, RuleResultSchema } from './rule-result.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RuleResultController } from './rule-result.controller';
 

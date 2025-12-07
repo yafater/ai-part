@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { baseToJson } from '../common/base-to-json';
-// import { baseToJson } from 'src/base-to-json';
+import { baseToJson } from '../common/helpers/base-to-json';
 
 export type EventDocument = HydratedDocument<Event>;
 @Schema({

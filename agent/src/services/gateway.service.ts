@@ -15,7 +15,6 @@ export class GatewayService implements OnModuleInit {
     @Inject('KAFKA_PRODUCER') private readonly kafkaClient: ClientKafka,
   ) {}
   async onModuleInit() {
-    this.kafkaClient.subscribeToResponseOf('sensor-event');
     await this.kafkaClient.connect();
   }
 

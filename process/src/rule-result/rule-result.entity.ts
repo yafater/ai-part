@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import { baseToJson } from 'src/common/base-to-json';
+import { baseToJson } from 'src/common/helpers/base-to-json';
 
 export type RuleResultDocument = HydratedDocument<RuleResult>;
 

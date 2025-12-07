@@ -21,29 +21,4 @@ export class RedisService {
   async del(key: string) {
     return this.redis.del(key);
   }
-
-  async exists(key: string) {
-    return this.redis.exists(key);
-  }
-
-  async incr(key: string) {
-    return this.redis.incr(key);
-  }
-
-  async expire(key: string, seconds: number) {
-    return this.redis.expire(key, seconds);
-  }
-
-  async hset(hash: string, field: string, value: any) {
-    return this.redis.hset(hash, field, JSON.stringify(value));
-  }
-
-  async hget(hash: string, field: string) {
-    const value = await this.redis.hget(hash, field);
-    return value ? JSON.parse(value) : null;
-  }
-
-  async hdel(hash: string, field: string) {
-    return this.redis.hdel(hash, field);
-  }
 }

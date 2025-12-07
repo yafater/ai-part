@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Rule, RuleDocument } from './rule.schema';
+import { Rule, RuleDocument } from './rule.entity';
 import { Model } from 'mongoose';
-import { CreateRuleDto, RuleDto } from './rule.dto';
-import { EventTypes } from 'src/event/event.types';
+import { RuleDto } from './dto/rule.dto';
+import { EventTypes } from 'src/common/enum/event.types.enum';
+import { CreateRuleDto } from './dto/create-rule.dto';
 
 @Injectable()
 export class RuleRepository {

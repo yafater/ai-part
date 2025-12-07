@@ -10,10 +10,11 @@ import {
   Res,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateRuleDto, RuleDto } from './rule.dto';
-import { ApiResponsePaginated } from 'src/common/api-response-paginated.decorator';
+import { RuleDto } from './dto/rule.dto';
+import { ApiResponsePaginated } from 'src/common/decorators/api-response-paginated.decorator';
 import express from 'express';
 import { RuleService } from './rule.service';
+import { CreateRuleDto } from './dto/create-rule.dto';
 
 @Controller('rules')
 @ApiTags('rules')

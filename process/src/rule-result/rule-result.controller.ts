@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GetRuleResultDto, RuleResultDto } from './get-results.dto';
+import { GetRuleResultDto } from './dto/get-results.dto';
 import { RuleResultService } from './rule-result.service';
+import { RuleResultDto } from './dto/rule-result.dto';
 
 @ApiTags('rule-results')
 @Controller('rule-results')

@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { RuleResultService } from './rule-result/rule-result.service';
 import { RuleService } from './rule/rule.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { EventTypes } from './event/event.types';
+import { EventTypes } from './common/enum/event.types.enum';
 export class EventDto {
   name: EventTypes;
   value: number;

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RuleRepository } from './rule.repository';
 import { RedisService } from '../redis/redis.service';
-import { RuleDocument } from './rule.schema';
-import { CreateRuleDto, RuleDto } from './rule.dto';
-import { EventTypes } from 'src/event/event.types';
+import { RuleDocument } from './rule.entity';
+import { RuleDto } from './dto/rule.dto';
+import { EventTypes } from 'src/common/enum/event.types.enum';
+import { CreateRuleDto } from './dto/create-rule.dto';
 
 @Injectable()
 export class RuleService {
@@ -11,10 +12,6 @@ export class RuleService {
     private readonly ruleRepository: RuleRepository,
     private readonly redisService: RedisService,
   ) {}
-
-  private getCacheKey(id: string) {
-    return `rule:${id}`;
-  }
 
   private getCacheListKey(eventType: EventTypes) {
     return `rules:list:${eventType}`;
@@ -49,7 +46,6 @@ export class RuleService {
     if (!rule) throw new NotFoundException('Rule not found');
     await this.ruleRepository.update(id, dto);
 
-    await this.redisService.del(this.getCacheKey(id));
     await this.redisService.del(this.getCacheListKey(rule.field as EventTypes));
   }
 
@@ -58,7 +54,6 @@ export class RuleService {
     if (!rule) throw new NotFoundException('Rule not found');
     await this.ruleRepository.delete(id);
 
-    await this.redisService.del(this.getCacheKey(id));
     await this.redisService.del(this.getCacheListKey(rule.field as EventTypes));
   }
 
