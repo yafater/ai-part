@@ -1,5 +1,10 @@
 import { faker } from '@faker-js/faker';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
 
@@ -9,13 +14,17 @@ interface EventDataDto {
   agentId: string;
 }
 @Injectable()
-export class GatewayService implements OnModuleInit {
+export class GatewayService implements OnModuleInit, OnModuleDestroy {
   constructor(
     private readonly configService: ConfigService,
     @Inject('KAFKA_PRODUCER') private readonly kafkaClient: ClientKafka,
   ) {}
   async onModuleInit() {
     await this.kafkaClient.connect();
+  }
+
+  async onModuleDestroy() {
+    await this.kafkaClient.close();
   }
 
   sendEvent() {
